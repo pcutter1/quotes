@@ -4,20 +4,18 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 import edu.cnm.deepdive.quotes.R;
-import edu.cnm.deepdive.quotes.model.entity.Quote;
 import edu.cnm.deepdive.quotes.model.pojo.QuoteWithSource;
 import edu.cnm.deepdive.quotes.view.QuoteAdapter;
 import edu.cnm.deepdive.quotes.viewmodel.MainViewModel;
 
-public class QuotesFragment extends Fragment {
+public class QuotesFragment extends Fragment implements QuoteAdapter.OnClickListener {
 
   private MainViewModel mainViewModel;
   private RecyclerView quoteList;
@@ -28,7 +26,7 @@ public class QuotesFragment extends Fragment {
     //noinspection ConstantConditions
     mainViewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
     mainViewModel.getQuotes().observe(getViewLifecycleOwner(),
-        (quotes) -> quoteList.setAdapter(new QuoteAdapter(getContext(), quotes)));
+        (quotes) -> quoteList.setAdapter(new QuoteAdapter(getContext(), quotes, this)));
   }
 
   public View onCreateView(@NonNull LayoutInflater inflater,
@@ -37,4 +35,16 @@ public class QuotesFragment extends Fragment {
     quoteList = root.findViewById(R.id.quote_list);
     return root;
   }
+
+  @Override
+  public void onClick(View v, int position, QuoteWithSource quote) {
+    Toast.makeText(getContext(), String.format("Item %d [%s] was clicked", position, quote), Toast.LENGTH_LONG).show();
+  }
+
+  private void editQuote(long quoteId) {
+
+
+
+  }
+
 }

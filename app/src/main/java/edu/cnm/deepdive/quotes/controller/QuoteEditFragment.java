@@ -2,6 +2,7 @@ package edu.cnm.deepdive.quotes.controller;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 
 import androidx.lifecycle.ViewModelProvider;
 import edu.cnm.deepdive.quotes.R;
+import edu.cnm.deepdive.quotes.model.entity.Source;
 import edu.cnm.deepdive.quotes.viewmodel.MainViewModel;
 
 public class QuoteEditFragment extends DialogFragment {
@@ -73,6 +75,11 @@ public class QuoteEditFragment extends DialogFragment {
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
+    viewModel.getSources().observe(getViewLifecycleOwner(), (sources) -> {
+      ArrayAdapter<Source> adapter =
+          new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, sources);
+      sourceName.setAdapter(adapter);
+    });
     if (quouteId != 0) {
       viewModel.getQuote().observe(getViewLifecycleOwner(), (quote) -> {
         if (quote != null) {

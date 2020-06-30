@@ -38,13 +38,14 @@ public class QuotesFragment extends Fragment implements QuoteAdapter.OnClickList
 
   @Override
   public void onClick(View v, int position, QuoteWithSource quote) {
-    Toast.makeText(getContext(), String.format("Item %d [%s] was clicked", position, quote), Toast.LENGTH_LONG).show();
+    editQuote(quote.getId());
+    //Toast.makeText(getContext(),
+    //    String.format("Item %d [%s] was clicked", position, quote), Toast.LENGTH_LONG).show();
   }
 
   private void editQuote(long quoteId) {
-
-
-
+    QuoteEditFragment fragment = QuoteEditFragment.newInstance(quoteId);
+    fragment.show(getChildFragmentManager(), fragment.getClass().getName());
   }
 
 }
